@@ -1,21 +1,25 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from "./components/HelloWorld.vue";
+<script lang="ts">
+import ky from "ky";
+export default {
+  data() {
+    return {
+      prefectures: {},
+    };
+  },
+  async mounted() {
+    const resp = await ky.get("/api/prefectures");
+    const json = await resp.json();
+    this.prefectures = json.result;
+  },
+};
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <ul>
+    <li v-for="item in prefectures" :key="item.prefCode">
+      {{ item.prefCode }} : {{ item.prefName }}
+    </li>
+  </ul>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
