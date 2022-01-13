@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "ky": "^0.28.7",
-    "vue": "^3.2.25"
+    "vue": "^3.2.25",
+    "got": "^12.0.1"
   },
   "devDependencies": {
+    "@netlify/functions": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.9.1",
     "@typescript-eslint/parser": "^5.9.1",
     "@vitejs/plugin-vue": "^2.0.0",
