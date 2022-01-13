@@ -1,17 +1,13 @@
-<script lang="ts">
+<script setup lang="ts">
 import ky from "ky";
-export default {
-  data() {
-    return {
-      prefectures: {},
-    };
-  },
-  async mounted() {
-    const resp = await ky.get("/api/prefectures");
-    const json = await resp.json();
-    this.prefectures = json.result;
-  },
-};
+import { onMounted, ref } from "vue";
+const prefectures = ref<{ prefCode: number; prefName: string }[]>([]);
+onMounted(async () => {
+  const resp = await ky.get("/api/prefectures");
+  const json = await resp.json();
+  prefectures.value = json.result;
+  console.log(json.result);
+});
 </script>
 
 <template>
