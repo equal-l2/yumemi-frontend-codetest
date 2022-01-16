@@ -6,7 +6,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint --fix --ext .js,.ts,.vue src netlify && prettier --write .",
-    "typecheck": "vue-tsc --noEmit"
+    "typeck": "vue-tsc --noEmit"
   },
   "dependencies": {
     "chart.js": "^3.7.0",

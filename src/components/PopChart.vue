@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import Chart from "chart.js/auto";
-import ky from "ky";
-import { onMounted, watch } from "vue";
+import { onMounted, watch, toRefs } from "vue";
+import { LineData } from "../types";
 
-const props = defineProps<{ ids: number[] }>();
+type Props = {
+  linesData: LineData[];
+};
+
+const props = defineProps<Props>();
+const { linesData: lines } = toRefs(props);
 
 let chart: Chart | null = null;
 
@@ -34,32 +39,11 @@ const renderChart = (arr: { data: { x: number; y: number }[] }[] = []) => {
 
 onMounted(renderChart);
 
-watch(props, async () => {
-  const lines = [];
-  for (const id of props.ids) {
-    try {
-      const resp = await ky(
-        `/api/v1/population/composition/perYear?prefCode=${id}`
-      );
-      const json = await resp.json();
-      const data: { year: number; value: number }[] = json.result.data[0].data;
-
-      const points = data.map((item) => {
-        return { x: item.year, y: item.value };
-      });
-
-      lines.push({
-        data: points,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  if (lines.length !== 0) {
-    renderChart(lines);
+watch(lines, async () => {
+  if (lines.value.length !== 0) {
+    renderChart(lines.value);
   } else {
-    renderChart([]);
+    renderChart();
   }
 });
 </script>
