@@ -1,18 +1,16 @@
+// 都道府県名と都道府県コード
 type PrefInfo = {
   prefName: string;
   prefCode: number;
 };
 
-type Point = {
-  x: number;
-  y: number;
-};
+type Point = [number, number];
 
+// EChartsに渡す1系列あたりのデータ
 type LineData = {
-  label: string | null;
-  data: Point[];
+  name: string; // 凡例用の名前
+  data: Point[]; // データ
+  type: string; // "line"
 };
 
-type LoadingStatus = "LOADING" | "SUCCESS" | null;
-
-export { PrefInfo, Point, LineData, LoadingStatus };
+export { PrefInfo, Point, LineData };

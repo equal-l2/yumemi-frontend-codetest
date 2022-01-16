@@ -3,55 +3,57 @@ import PopChart from "./components/PopChart.vue";
 import PrefChooser from "./components/PrefChooser.vue";
 import { ref, onMounted } from "vue";
 import ky from "ky";
-import { PrefInfo, Point, LineData, LoadingStatus } from "./types";
+import { PrefInfo, Point, LineData } from "./types";
 
 const prefs = ref<PrefInfo[]>([]);
-const prefsLoadStatus = ref<LoadingStatus>("LOADING");
+const prefsLoading = ref(false);
 
+// 都道府県名と都道府県コードを取得
 const fetchPrefs = async () => {
+  prefsLoading.value = true;
   try {
     const resp = await ky("/api/v1/prefectures");
     const json = await resp.json();
     prefs.value = json.result;
   } catch (e) {
     console.error("Error:", e);
-    prefsLoadStatus.value = null;
-    return;
   }
-  prefsLoadStatus.value = "SUCCESS";
+  prefsLoading.value = false;
 };
 
 const lines = ref<LineData[]>([]);
-const linesLoadStatus = ref<LoadingStatus>("SUCCESS");
+const linesLoading = ref(false);
 
-const fetchPops = async (ids: number[]) => {
-  linesLoadStatus.value = "LOADING";
+// コードに対応した各都道府県の総人口推移を取得
+const fetchPops = async (codes: number[]) => {
+  linesLoading.value = true;
   const linesTmp = [];
-  for (const id of ids) {
-    const info = prefs.value.find((elem) => elem.prefCode === id);
+  for (const code of codes) {
+    const info = prefs.value.find((elem) => elem.prefCode === code);
     if (info) {
       try {
         const resp = await ky(
-          `/api/v1/population/composition/perYear?prefCode=${id}`
+          `/api/v1/population/composition/perYear?prefCode=${code}`
         );
         const json = await resp.json();
         const data: { year: number; value: number }[] =
           json.result.data[0].data;
 
         const points: Point[] = data.map((item) => {
-          return { x: item.year, y: item.value };
+          return [item.year, item.value];
         });
 
         linesTmp.push({
-          label: info.prefName,
+          name: info.prefName,
           data: points,
+          type: "line",
         });
       } catch (e) {
         console.error(e);
       }
     }
   }
-  linesLoadStatus.value = "SUCCESS";
+  linesLoading.value = false;
   lines.value = linesTmp;
 };
 
@@ -61,10 +63,10 @@ onMounted(fetchPrefs);
 <template>
   <PrefChooser
     :pref-infos="prefs"
-    :load-status="prefsLoadStatus"
+    :loading="prefsLoading"
     @change="fetchPops"
   />
-  <PopChart :lines-data="lines" :load-status="linesLoadStatus" />
+  <PopChart :lines-data="lines" :loading="linesLoading" />
 </template>
 
 <style></style>

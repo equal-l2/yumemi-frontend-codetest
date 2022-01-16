@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { defineEmits, ref } from "vue";
-import { PrefInfo, LoadingStatus } from "../types";
+import { ref } from "vue";
+import { PrefInfo } from "../types";
 import debounce from "lodash/debounce";
 
-const emit = defineEmits<{ (e: "change", idSelected: number[]): void }>();
+// チェックボックス変化時に、チェックボックスの内容をイベントとして投げる
+const emit = defineEmits<{ (e: "change", codeSelected: number[]): void }>();
+const codeSelected = ref<number[]>([]); // チェックボックスの内容が入る
 
 type Props = {
-  prefInfos: PrefInfo[];
-  loadStatus: LoadingStatus;
+  prefInfos: PrefInfo[]; // 都道府県名とコードの対応
+  loading: boolean; // prefInfosがロード中かどうか
 };
 
 defineProps<Props>();
 
-// for onChange event
-const idSelected = ref<number[]>([]);
-
+// チェックボックスの変更は一定時間変更がない場合のみemitする
 const debounceChange = debounce(() => {
-  emit("change", idSelected.value);
+  emit("change", codeSelected.value);
 }, 500);
 </script>
 
 <template>
-  <div v-if="loadStatus === 'LOADING'">都道府県名をロード中</div>
-  <div v-else-if="loadStatus === 'SUCCESS'">
+  <div v-if="loading">都道府県名をロード中</div>
+  <div v-else>
     <p v-if="prefInfos.length === 0">都道府県名データが存在しません</p>
     <label v-for="item in prefInfos" v-else :key="item.prefCode">
       <input
-        v-model="idSelected"
+        v-model="codeSelected"
         type="checkbox"
         :value="item.prefCode"
         @change="debounceChange"
@@ -34,7 +34,6 @@ const debounceChange = debounce(() => {
       {{ item.prefName }}
     </label>
   </div>
-  <div v-else>都道府県名のロードに失敗しました</div>
 </template>
 
 <style>

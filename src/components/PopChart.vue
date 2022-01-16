@@ -1,83 +1,58 @@
 <script setup lang="ts">
-import Chart from "chart.js/auto";
-import { onMounted, watch, toRefs } from "vue";
-import { LineData, LoadingStatus } from "../types";
+import { watch, toRefs, ref } from "vue";
+import { LineData } from "../types";
+import { EChartsOption } from "echarts";
+import { use } from "echarts/core";
+import { SVGRenderer } from "echarts/renderers";
+import { LineChart } from "echarts/charts";
+import {
+  TitleComponent,
+  GridComponent,
+  LegendComponent,
+} from "echarts/components";
+import VChart from "vue-echarts";
 
 type Props = {
-  linesData: LineData[];
-  loadStatus: LoadingStatus;
+  linesData: LineData[]; // グラフ用のデータ
+  loading: boolean; // 人口がロード中かどうか
 };
 
 const props = defineProps<Props>();
 const { linesData: lines } = toRefs(props);
 
-let chart: Chart | null = null;
-
-const renderChart = (arr: { data: { x: number; y: number }[] }[] = []) => {
-  if (!chart) {
-    chart = new Chart("chart-canvas", {
-      type: "scatter",
-      data: {
-        datasets: [],
-      },
-      options: {
-        showLine: true,
-        scales: {
-          x: {
-            min: 1955,
-            max: 2050,
-          },
-          y: {
-            min: 0,
-          },
-        },
-      },
-    });
-  }
-  chart.data.datasets = arr;
-  chart.update();
-};
-
-onMounted(() => {
-  renderChart();
+// EChartsの設定
+const option = ref<EChartsOption>({
+  xAxis: {
+    min: 1950,
+    max: 2050,
+    interval: 10,
+    name: "年度",
+  },
+  yAxis: {
+    name: "人口",
+  },
+  legend: {},
+  series: [],
 });
+use([SVGRenderer, TitleComponent, LineChart, GridComponent, LegendComponent]);
 
-watch(lines, async () => {
-  if (lines.value.length !== 0) {
-    renderChart(lines.value);
-  } else {
-    renderChart();
-  }
+// propsからEChartsへデータを渡す
+watch(lines, () => {
+  // @ts-ignore LineData.typesの型がうまく合わない
+  option.value.series = lines.value;
 });
 </script>
 
 <template>
-  <div id="chart-container">
-    <canvas id="chart-canvas"></canvas>
-    <div v-if="loadStatus === 'LOADING'" id="load-overlay">
-      <span id="load-text">ロード中</span>
-    </div>
-  </div>
+  <v-chart id="chart" :option="option" :loading="loading" autoresize />
 </template>
 
 <style>
-#chart-container {
-  position: relative;
-}
-#load-overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #000000a0;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 1em;
-}
-#load-text {
-  color: white;
-  font-size: 10vw;
+#chart {
+  height: 50vh;
+  width: 90vw;
+  padding-left: auto;
+  padding-right: auto;
+  margin: 1em;
 }
 </style>
