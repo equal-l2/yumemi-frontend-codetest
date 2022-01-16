@@ -77,7 +77,7 @@ body {
 }
 #chooser {
   height: 50vh;
-  overflow: scroll;
+  overflow-y: auto;
 }
 #chart {
   height: 50vh;
