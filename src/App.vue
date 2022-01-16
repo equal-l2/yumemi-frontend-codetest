@@ -64,6 +64,7 @@ onMounted(fetchPrefs);
   <PrefChooser
     :pref-infos="prefs"
     :loading="prefsLoading"
+    :disabled="linesLoading"
     @change="fetchPops"
   />
   <PopChart :lines-data="lines" :loading="linesLoading" />

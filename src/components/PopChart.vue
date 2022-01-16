@@ -25,7 +25,7 @@ const option = ref<EChartsOption>({
   xAxis: {
     min: 1950,
     max: 2050,
-    interval: 10,
+    interval: 20,
     name: "年度",
   },
   yAxis: {

@@ -10,6 +10,7 @@ const codeSelected = ref<number[]>([]); // チェックボックスの内容が�
 type Props = {
   prefInfos: PrefInfo[]; // 都道府県名とコードの対応
   loading: boolean; // prefInfosがロード中かどうか
+  disabled: boolean;
 };
 
 defineProps<Props>();
@@ -17,7 +18,7 @@ defineProps<Props>();
 // チェックボックスの変更は一定時間変更がない場合のみemitする
 const debounceChange = debounce(() => {
   emit("change", codeSelected.value);
-}, 500);
+}, 1000);
 </script>
 
 <template>
@@ -29,6 +30,7 @@ const debounceChange = debounce(() => {
         v-model="codeSelected"
         type="checkbox"
         :value="item.prefCode"
+        :disabled="disabled"
         @change="debounceChange"
       />
       {{ item.prefName }}
