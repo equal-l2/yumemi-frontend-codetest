@@ -48,11 +48,4 @@ watch(lines, () => {
 </template>
 
 <style>
-#chart {
-  height: 50vh;
-  width: 90vw;
-  padding-left: auto;
-  padding-right: auto;
-  margin: 1em;
-}
 </style>
