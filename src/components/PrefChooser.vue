@@ -1,32 +1,35 @@
 <script setup lang="ts">
-import { defineEmits, ref, toRefs } from "vue";
-import { PrefInfo, LoadingState } from "../types";
+import { defineEmits, ref } from "vue";
+import { PrefInfo, LoadingStatus } from "../types";
+import debounce from "lodash/debounce";
 
-defineEmits<{ (e: "change", idSelected: number[]): void }>();
+const emit = defineEmits<{ (e: "change", idSelected: number[]): void }>();
 
 type Props = {
   prefInfos: PrefInfo[];
-  state: LoadingState;
+  loadStatus: LoadingStatus;
 };
 
-const props = defineProps<Props>();
-
-const { prefInfos: prefs, state } = toRefs(props);
+defineProps<Props>();
 
 // for onChange event
 const idSelected = ref<number[]>([]);
+
+const debounceChange = debounce(() => {
+  emit("change", idSelected.value);
+}, 500);
 </script>
 
 <template>
-  <div v-if="state === 'LOADING'">都道府県名をロード中</div>
-  <div v-else-if="state === 'SUCCESS'">
-    <p v-if="prefs.length === 0">都道府県名データが存在しません</p>
-    <label v-for="item in prefs" v-else :key="item.prefCode">
+  <div v-if="loadStatus === 'LOADING'">都道府県名をロード中</div>
+  <div v-else-if="loadStatus === 'SUCCESS'">
+    <p v-if="prefInfos.length === 0">都道府県名データが存在しません</p>
+    <label v-for="item in prefInfos" v-else :key="item.prefCode">
       <input
         v-model="idSelected"
         type="checkbox"
         :value="item.prefCode"
-        @change="$emit('change', idSelected)"
+        @change="debounceChange"
       />
       {{ item.prefName }}
     </label>

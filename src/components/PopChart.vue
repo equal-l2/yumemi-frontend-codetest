@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import Chart from "chart.js/auto";
 import { onMounted, watch, toRefs } from "vue";
-import { LineData } from "../types";
+import { LineData, LoadingStatus } from "../types";
 
 type Props = {
   linesData: LineData[];
+  loadStatus: LoadingStatus;
 };
 
 const props = defineProps<Props>();
@@ -37,7 +38,9 @@ const renderChart = (arr: { data: { x: number; y: number }[] }[] = []) => {
   chart.update();
 };
 
-onMounted(renderChart);
+onMounted(() => {
+  renderChart();
+});
 
 watch(lines, async () => {
   if (lines.value.length !== 0) {
@@ -49,7 +52,32 @@ watch(lines, async () => {
 </script>
 
 <template>
-  <canvas id="chart-canvas"></canvas>
+  <div id="chart-container">
+    <canvas id="chart-canvas"></canvas>
+    <div v-if="loadStatus === 'LOADING'" id="load-overlay">
+      <span id="load-text">ロード中</span>
+    </div>
+  </div>
 </template>
 
-<style></style>
+<style>
+#chart-container {
+  position: relative;
+}
+#load-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000000a0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 1em;
+}
+#load-text {
+  color: white;
+  font-size: 10vw;
+}
+</style>

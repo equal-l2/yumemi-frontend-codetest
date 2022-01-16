@@ -13,6 +13,6 @@ type LineData = {
   data: Point[];
 };
 
-type LoadingState = "LOADING" | "SUCCESS" | null;
+type LoadingStatus = "LOADING" | "SUCCESS" | null;
 
-export { PrefInfo, Point, LineData, LoadingState };
+export { PrefInfo, Point, LineData, LoadingStatus };

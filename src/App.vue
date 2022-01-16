@@ -3,10 +3,10 @@ import PopChart from "./components/PopChart.vue";
 import PrefChooser from "./components/PrefChooser.vue";
 import { ref, onMounted } from "vue";
 import ky from "ky";
-import { PrefInfo, Point, LineData, LoadingState } from "./types";
+import { PrefInfo, Point, LineData, LoadingStatus } from "./types";
 
 const prefs = ref<PrefInfo[]>([]);
-const prefsLoadStatus = ref<LoadingState>("LOADING");
+const prefsLoadStatus = ref<LoadingStatus>("LOADING");
 
 const fetchPrefs = async () => {
   try {
@@ -22,8 +22,10 @@ const fetchPrefs = async () => {
 };
 
 const lines = ref<LineData[]>([]);
+const linesLoadStatus = ref<LoadingStatus>("SUCCESS");
 
 const fetchPops = async (ids: number[]) => {
+  linesLoadStatus.value = "LOADING";
   const linesTmp = [];
   for (const id of ids) {
     const info = prefs.value.find((elem) => elem.prefCode === id);
@@ -49,6 +51,7 @@ const fetchPops = async (ids: number[]) => {
       }
     }
   }
+  linesLoadStatus.value = "SUCCESS";
   lines.value = linesTmp;
 };
 
@@ -58,10 +61,10 @@ onMounted(fetchPrefs);
 <template>
   <PrefChooser
     :pref-infos="prefs"
-    :state="prefsLoadStatus"
+    :load-status="prefsLoadStatus"
     @change="fetchPops"
   />
-  <PopChart :lines-data="lines" />
+  <PopChart :lines-data="lines" :load-status="linesLoadStatus" />
 </template>
 
 <style></style>
