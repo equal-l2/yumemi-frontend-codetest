@@ -71,20 +71,20 @@ onMounted(fetchPrefs);
   <PopChart id="chart" :lines-data="lines" :loading="linesLoading" />
 </template>
 
-<style>
+<style scoped>
+@import "modern-normalize/modern-normalize.css";
 body {
-  height: 100%;
   overflow: hidden;
 }
 #chooser {
-  height: 50vh;
+  height: 40vh;
+  width: 90vw;
+  margin: auto;
   overflow-y: auto;
 }
 #chart {
-  height: 50vh;
+  height: 60vh;
   width: 90vw;
-  padding-left: auto;
-  padding-right: auto;
-  margin: 1em;
+  margin: auto;
 }
 </style>

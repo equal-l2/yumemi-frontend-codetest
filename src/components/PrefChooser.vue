@@ -22,7 +22,7 @@ const debounceChange = debounce(() => {
 </script>
 
 <template>
-  <div data-test="chooser">
+  <div class="pref-chooser-container" data-test="chooser">
     <p v-if="loading" data-test="loading">都道府県名をロード中</p>
     <template v-else>
       <p v-if="prefInfos.length === 0" data-test="no-item">
@@ -47,9 +47,15 @@ const debounceChange = debounce(() => {
   </div>
 </template>
 
-<style>
+<style scoped>
+@import "modern-normalize/modern-normalize.css";
+.pref-chooser-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
 label {
-  display: inline-block;
   width: 6em;
+  margin-bottom: 0.3em;
 }
 </style>
