@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "lint": "eslint --fix --ext .js,.ts,.vue src netlify && prettier --write .",
+    "lint": "eslint --fix --ext .js,.ts,.vue src netlify; prettier --write .",
     "typeck": "vue-tsc --noEmit",
     "test": "vitest run",
     "cy:test": "start-server-and-test 8888 cy:run",

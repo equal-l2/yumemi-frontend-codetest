@@ -28,29 +28,34 @@ const linesLoading = ref(false);
 const fetchPops = async (codes: number[]) => {
   linesLoading.value = true;
   const linesTmp = [];
+  const futures = [];
   for (const code of codes) {
     const info = prefs.value.find((elem) => elem.prefCode === code);
     if (info) {
-      try {
-        const resp = await ky(
-          `/api/v1/population/composition/perYear?prefCode=${code}`
-        );
-        const json = await resp.json();
-        const data: { year: number; value: number }[] =
-          json.result.data[0].data;
+      futures.push({
+        name: info.prefName,
+        promise: ky(`/api/v1/population/composition/perYear?prefCode=${code}`),
+      });
+    }
+  }
 
-        const points: Point[] = data.map((item) => {
-          return [item.year, item.value];
-        });
+  for (const { name, promise } of futures) {
+    try {
+      const resp = await promise;
+      const json = await resp.json();
+      const data: { year: number; value: number }[] = json.result.data[0].data;
 
-        linesTmp.push({
-          name: info.prefName,
-          data: points,
-          type: "line",
-        });
-      } catch (e) {
-        console.error(e);
-      }
+      const points: Point[] = data.map((item) => {
+        return [item.year, item.value];
+      });
+
+      linesTmp.push({
+        name: name,
+        data: points,
+        type: "line",
+      });
+    } catch (e) {
+      console.error(e);
     }
   }
   linesLoading.value = false;
