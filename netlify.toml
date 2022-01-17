@@ -1,3 +1,6 @@
 [[redirects]]
   from = '/api/*'
   to = '/.netlify/functions/proxy/:splat'
+
+[dev]
+autoLaunch = false

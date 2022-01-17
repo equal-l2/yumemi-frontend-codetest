@@ -22,19 +22,28 @@ const debounceChange = debounce(() => {
 </script>
 
 <template>
-  <div v-if="loading">都道府県名をロード中</div>
-  <div v-else>
-    <p v-if="prefInfos.length === 0">都道府県名データが存在しません</p>
-    <label v-for="item in prefInfos" v-else :key="item.prefCode">
-      <input
-        v-model="codeSelected"
-        type="checkbox"
-        :value="item.prefCode"
-        :disabled="disabled"
-        @change="debounceChange"
-      />
-      {{ item.prefName }}
-    </label>
+  <div data-test="chooser">
+    <p v-if="loading" data-test="loading">都道府県名をロード中</p>
+    <template v-else>
+      <p v-if="prefInfos.length === 0" data-test="no-item">
+        都道府県名データが存在しません
+      </p>
+      <label
+        v-for="item in prefInfos"
+        v-else
+        :key="item.prefCode"
+        :data-test="'input' + item.prefCode"
+      >
+        <input
+          v-model="codeSelected"
+          type="checkbox"
+          :value="item.prefCode"
+          :disabled="disabled"
+          @change="debounceChange"
+        />
+        {{ item.prefName }}
+      </label>
+    </template>
   </div>
 </template>
 

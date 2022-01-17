@@ -61,7 +61,8 @@ onMounted(fetchPrefs);
 </script>
 
 <template>
-  <PrefChooser id="chooser"
+  <PrefChooser
+    id="chooser"
     :pref-infos="prefs"
     :loading="prefsLoading"
     :disabled="linesLoading"
@@ -72,7 +73,7 @@ onMounted(fetchPrefs);
 
 <style>
 body {
-  height:100%;
+  height: 100%;
   overflow: hidden;
 }
 #chooser {

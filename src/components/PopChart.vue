@@ -47,5 +47,4 @@ watch(lines, () => {
   <v-chart id="chart" :option="option" :loading="loading" autoresize />
 </template>
 
-<style>
-</style>
+<style></style>

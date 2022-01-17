@@ -8,3 +8,6 @@ dist-ssr
 .netlify
 
 .env
+
+coverage
+cypress/videos
