@@ -1,11 +1,13 @@
-# Vue 3 + Typescript + Vite
+# ゆめみ フロントエンド課題
 
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 前提環境
 
-## Recommended IDE Setup
+- Node が入っていること  
+  (Node v17 では Vite と Netlify CLI の組み合わせで動作がうまくいかないため、nvm などで**v16 以下をインストール**すること)
+- RESAS API に登録し、API キーを発行しておくこと
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+## セットアップ
 
-## Type Support For `.vue` Imports in TS
-
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
+1. `npm install`を実行し、パッケージ類をインストールする
+2. `.env.sample`を`.env`にコピーしたうえで、RESAS API のキーを`.env`に記入する
+3. `npm run start`を実行するとアプリケーションサーバが起動する
