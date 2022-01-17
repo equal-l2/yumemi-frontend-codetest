@@ -1,0 +1,12 @@
+diff --git a/node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts b/node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts
+index 40a43f3..05e289d 100644
+--- a/node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts
++++ b/node_modules/@vue/test-utils/dist/interfaces/wrapperLike.d.ts
+@@ -1,5 +1,5 @@
+-import { DefinedComponent, FindAllComponentsSelector, FindComponentSelector, NameSelector, RefSelector } from 'src/types';
+-import { VueWrapper } from 'src/vueWrapper';
++import { DefinedComponent, FindAllComponentsSelector, FindComponentSelector, NameSelector, RefSelector } from '../types';
++import { VueWrapper } from '../vueWrapper';
+ import { ComponentPublicInstance, FunctionalComponent } from 'vue';
+ import type { DOMWrapper } from '../domWrapper';
+ export default interface WrapperLike {
