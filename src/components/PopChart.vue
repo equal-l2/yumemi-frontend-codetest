@@ -50,7 +50,3 @@ watch(lines, () => {
 <template>
   <v-chart :option="option" :loading="loading" autoresize />
 </template>
-
-<style scoped>
-@import "modern-normalize/modern-normalize.css";
-</style>

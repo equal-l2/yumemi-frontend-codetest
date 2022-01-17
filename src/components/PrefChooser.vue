@@ -48,7 +48,6 @@ const debounceChange = debounce(() => {
 </template>
 
 <style scoped>
-@import "modern-normalize/modern-normalize.css";
 .pref-chooser-container {
   display: flex;
   flex-wrap: wrap;
