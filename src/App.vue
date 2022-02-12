@@ -67,24 +67,22 @@ onMounted(fetchPrefs);
 
 <template>
   <PrefChooser
-    id="chooser"
+    class="chooser"
     :pref-infos="prefs"
     :loading="prefsLoading"
     :disabled="linesLoading"
     @change="fetchPops"
   />
-  <PopChart id="chart" :lines-data="lines" :loading="linesLoading" />
+  <PopChart class="chart" :lines-data="lines" :loading="linesLoading" />
 </template>
 
-<style>
-@import "modern-normalize/modern-normalize.css";
-
+<style scoped>
 body {
   height: 100%;
   overflow: hidden;
 }
 
-#chooser {
+.chooser {
   padding-top: 1em;
   height: 40vh;
   width: 90vw;
@@ -93,7 +91,7 @@ body {
   margin-bottom: 2vh;
 }
 
-#chart {
+.chart {
   height: 55vh;
   width: 90vw;
   margin: auto;
