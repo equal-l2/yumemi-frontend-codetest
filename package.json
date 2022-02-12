@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "lint": "eslint --fix --ext .js,.ts,.vue src netlify; stylelint --fix \"**/*.vue\" -f verbose; prettier --write .",
+    "fix": "eslint --fix --ext .js,.ts,.vue src netlify; stylelint --fix \"**/*.vue\" -f verbose; prettier --write .",
+    "lint": "eslint --max-warnings 0 --ext .js,.ts,.vue src netlify && stylelint --fix \"**/*.vue\" -f verbose && prettier --check .",
     "typeck": "vue-tsc --noEmit",
     "test": "vitest run",
     "cy:test": "start-server-and-test 8888 cy:run",
@@ -15,8 +16,7 @@
   "pre-commit": [
     "lint",
     "typeck",
-    "test",
-    "cy:test"
+    "test"
   ],
   "dependencies": {
     "@vue/test-utils": "^2.0.0-rc.18",
