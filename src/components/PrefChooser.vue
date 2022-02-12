@@ -53,6 +53,7 @@ const debounceChange = debounce(() => {
   flex-wrap: wrap;
   align-content: flex-start;
 }
+
 label {
   width: 6em;
   margin-bottom: 0.3em;

@@ -78,10 +78,12 @@ onMounted(fetchPrefs);
 
 <style>
 @import "modern-normalize/modern-normalize.css";
+
 body {
   height: 100%;
   overflow: hidden;
 }
+
 #chooser {
   padding-top: 1em;
   height: 40vh;
@@ -90,6 +92,7 @@ body {
   overflow-y: auto;
   margin-bottom: 2vh;
 }
+
 #chart {
   height: 55vh;
   width: 90vw;
