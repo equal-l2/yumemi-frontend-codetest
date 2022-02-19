@@ -57,5 +57,6 @@ const debounceChange = debounce(() => {
 label {
   width: 6em;
   margin-bottom: 0.3em;
+  user-select: none;
 }
 </style>
